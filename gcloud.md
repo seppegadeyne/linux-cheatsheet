@@ -38,7 +38,12 @@ gcloud compute instances create test-vm
 gcloud compute instances stop test-vm
 gcloud compute instances start test-vm
 gcloud compute instances delete test-vm
-gcloud compute instances create test-vm --machine-type=n1-standard-1 --zone=europe-west1-b --image-project=ubuntu-os-cloud --image-family=ubuntu-1804-lts --tags=chat
+gcloud compute instances create test-vm \
+    --machine-type=n1-standard-1 \
+    --zone=europe-west1-b \
+    --image-project=ubuntu-os-cloud \
+    --image-family=ubuntu-1804-lts \
+    --tags=chat
 ```
 
 ### Info
