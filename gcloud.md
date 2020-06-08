@@ -109,7 +109,7 @@ Rules with a target tag apply only to VM instances with the same tag.
 
 ### Scale out - instance template
 
-Create and delete instance templates:
+####Create and delete instance templates:
 ```
 gcloud compute instance-templates create test-template
 gcloud compute instance-templates delete test-template --quiet
@@ -124,7 +124,7 @@ gcloud compute instance-templates create test-template \
 ```
 Tags http-server and https-server will apply suitable firewall rules. 
 
-Info from instance templates:
+####Info from instance templates:
 ```
 gcloud compute instance-templates list
 gcloud compute instance-templates describe test-template
@@ -132,7 +132,7 @@ gcloud compute instance-templates describe test-template
 
 ### Scale out - instance group
 
-Create and delete instance groups:
+####Create and delete instance groups:
 ```
 gcloud compute instance-groups managed create test-group \
     --zone=europe-west1-b \
@@ -141,12 +141,12 @@ gcloud compute instance-groups managed create test-group \
 gcloud compute instance-groups managed delete test-group
 ```
 
-Resize instance group:
+####Resize instance group:
 ```
 gcloud compute instance-groups managed resize test-group --size=4
 ```
 
-Get information from the instance group
+####Get information from the instance group
 ```
 gcloud compute instance-groups managed list
 gcloud compute instance-groups managed describe test-group
