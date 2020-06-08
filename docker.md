@@ -29,11 +29,13 @@ docker login
 ## Build Dockerfile
 ### Dockerfile
 ```
-FROM alpine
-RUN apk update && apk add nodejs
-COPY . /app
-WORKDIR /app
-CMD ["node", "index.js"]
+FROM python:3.8-slim
+RUN mkdir /appl
+WORKDIR ./appl
+RUN pip install --trusted-host pypi.python.org Flask
+EXPOSE 80
+ENV NAME=Earth
+CMD ["python","app.py"]
 ```
 ```
 # Version: 0.0.2
