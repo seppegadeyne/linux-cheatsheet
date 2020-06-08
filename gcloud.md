@@ -105,6 +105,114 @@ gcloud compute firewall-rules delete http8080
 ```
 Rules with a target tag apply only to VM instances with the same tag.
 
+## Dynamic resources
 
+### Scale out - instance template
 
+Create and delete instance templates:
+```
+gcloud compute instance-templates create test-template
+gcloud compute instance-templates delete test-template --quiet
+gcloud compute instance-templates create test-template \
+    --machine-type=n1-standard-1 \
+    --image-project=ubuntu-os-cloud \
+    --image-family=ubuntu-1804-lts \
+    --tags=http-server,https-server \
+    --metadata=startup-script="#!/bin/bash
+        sudo apt-get update
+        sudo apt-get --assume-yes install apache2"
+```
+Tags http-server and https-server will apply suitable firewall rules. 
 
+Info from instance templates:
+```
+gcloud compute instance-templates list
+gcloud compute instance-templates describe test-template
+```
+
+### Scale out - instance group
+
+Create and delete instance groups:
+```
+gcloud compute instance-groups managed create test-group \
+    --zone=europe-west1-b \
+    --template=test-template \
+    --size=3 
+gcloud compute instance-groups managed delete test-group
+```
+
+Resize instance group:
+```
+gcloud compute instance-groups managed resize test-group --size=4
+```
+
+Get information from the instance group
+```
+gcloud compute instance-groups managed list
+gcloud compute instance-groups managed describe test-group
+```
+
+### Scale out - autoscaling instance group
+```
+gcloud compute instance-groups managed set-autoscaling test-group \
+    --max-num-replicas=10 \
+    --min-num-replicas=1 \
+    --cool-down-period=15
+```
+
+## Cloud SQL
+### Machine types
+```
+gcloud sql tiers list
+```
+
+### Create or delete an instance 
+```
+gcloud sql instances --help
+gcloud sql instances create test-sql \
+    --tier=db-f1-micro \
+    --region=europe-west1 \
+    --authorized-networks=200.1.1.1/32 \
+    --root-password=TMv4ABbB9a6uLsKL
+gcloud sql instances delete test-sql
+```
+
+### Info
+```
+gcloud sql instances list
+gcloud sql instances describe test-sql
+```
+
+### Allow VM access to SQL
+```
+gcloud sql instances patch test-sql2 \
+    --authorized-networks=ip_address_vm/32
+```
+
+### Connect to SQL from VM
+```
+sudo apt-get update
+sudo apt-get install mysql-client
+mysql --host sql_ip_address --user=root --password=password
+```
+
+## Cloud storage
+### Create or delete a bucket
+```
+gsutil mb gs://test-bucket
+gsutil rb gs://test-bucket
+```
+
+### Copy and delete files / objects
+```
+gsutil cp file gs://test-bucket
+gsutil rm gs://test-bucket/file
+gsutil rsync gs://test-bucket .
+```
+
+ ### Show content
+ ```
+gsutil ls
+gsutil ls gs://test-bucket
+gsutil cat gs://test-bucket/file
+```
