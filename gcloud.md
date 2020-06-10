@@ -172,7 +172,7 @@ gcloud sql instances --help
 gcloud sql instances create test-sql \
     --tier=db-f1-micro \
     --region=europe-west1 \
-    --authorized-networks=200.1.1.1/32 \
+    --authorized-networks=0.0.0.0/0 \ # whitelist any IP
     --root-password=TMv4ABbB9a6uLsKL
 gcloud sql instances delete test-sql
 ```
